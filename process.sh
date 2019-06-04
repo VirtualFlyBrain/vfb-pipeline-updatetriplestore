@@ -6,6 +6,12 @@ RDF4J=/opt/eclipse-rdf4j-${RDF4J_VERSION}
 RDF4JSERVER=${SERVER}/rdf4j-server
 DATA=/data
 
+echo 'Waiting for RDF4J server..'
+until $(curl --output /dev/null --silent --head --fail ${RDF4JSERVER}); do
+    printf '.'
+    sleep 5
+done
+
 echo "connect "${RDF4JSERVER}|cat - ${VFBSETUP} > /tmp/out && mv /tmp/out ${VFBSETUP}
 cat ${VFBSETUP}
 cat ${VFBSETUP} | sh ${RDF4J}/bin/console.sh
