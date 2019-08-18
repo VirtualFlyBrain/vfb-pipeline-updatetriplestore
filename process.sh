@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 echo "Set up VFB"
 VFBSETUP=${WORKSPACE}/rdf4j_vfb.txt
 RDF4J=/opt/eclipse-rdf4j-${RDF4J_VERSION}
