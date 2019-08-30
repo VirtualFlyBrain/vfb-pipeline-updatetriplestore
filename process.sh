@@ -22,8 +22,6 @@ ls -l $DATA
 
 cd $DATA
 
-if 
-
 # The following for loop writes the load commands into the RDF4J setup script
 for i in *.ttl.gz; do
     [ -f "$i" ] || break
