@@ -29,5 +29,7 @@ for i in *.ttl.gz; do
     echo $i
     #awk -v line="$arg" '/open vfb/ { print; print line; next }1' $WS/rdf4j.txt > $WS/tmp.txt
     #cp $WS/tmp.txt $WS/rdf4j.txt
-    curl -X POST -H "Content-type: text/turtle" --data-binary @$i ${RDF4JSERVER}/repositories/vfb/statements?context=_:$i
+    echo "curl -X POST -H \"Content-type: text/turtle\" --data-binary @$i ${RDF4JSERVER}/repositories/vfb/statements?context=_:$i"
+    response=$(curl -X POST -H "Content-type: text/turtle" --data-binary @$i ${RDF4JSERVER}/repositories/vfb/statements?context=_:$i)
+    if [ "Upload successful" == "${response}" ]; then echo "Upload successful"; else raise error "Upload failed: ${response}"  fi;
 done
