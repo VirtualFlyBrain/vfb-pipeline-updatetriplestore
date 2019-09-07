@@ -31,5 +31,5 @@ for i in *.ttl.gz; do
     #cp $WS/tmp.txt $WS/rdf4j.txt
     echo "curl -X POST -H \"Content-type: text/turtle\" --data-binary @$i ${RDF4JSERVER}/repositories/vfb/statements?context=_:$i"
     response=$(curl -X POST -H "Content-type: text/turtle" --data-binary @$i ${RDF4JSERVER}/repositories/vfb/statements?context=_:$i)
-    if [ "Upload successful" == "${response}" ]; then echo "Upload successful"; else echo "Upload failed: ${response}"; fi;
+    if [ "Upload successful" == "${response}" ]; then echo "Upload successful"; else echo "Response: |${response}|"; fi;
 done
