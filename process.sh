@@ -30,9 +30,8 @@ for i in *.ttl.gz; do
     #awk -v line="$arg" '/open vfb/ { print; print line; next }1' $WS/rdf4j.txt > $WS/tmp.txt
     #cp $WS/tmp.txt $WS/rdf4j.txt
     echo "curl -v --retry 5 --retry-delay 10 -X POST -H \"Content-type: text/turtle\" --data-binary @$i ${RDF4JSERVER}/repositories/vfb/statements?context=_:$i"
-    response=$(curl -v --retry 5 --retry-delay 10 -X POST -H "Content-type: text/turtle" --data-binary @$i "${RDF4JSERVER}/repositories/vfb/statements?context=_:$i" || exit 1)
-    echo "Response: |${response}|"
-    sleep 5
+    curl -v --retry 5 --retry-delay 10 -X POST -H "Content-type: text/turtle" --data-binary @$i ${RDF4JSERVER}/repositories/vfb/statements?context=_:$i || exit 1
+  sleep 5
 done
 
-echo "Update triplestore complete"
+echo "process complete"
