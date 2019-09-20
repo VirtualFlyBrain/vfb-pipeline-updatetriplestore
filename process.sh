@@ -2,7 +2,11 @@
 
 set -e
 
-echo "Set up VFB"
+echo "process started"
+echo "Start: vfb-pipeline-updatetriplestore"
+echo "VFBTIME:"
+date
+
 VFBSETUP=${WORKSPACE}/rdf4j_vfb.txt
 RDF4J=/opt/eclipse-rdf4j-${RDF4J_VERSION}
 RDF4JSERVER=${SERVER}/rdf4j-server
@@ -20,6 +24,10 @@ cat ${VFBSETUP} | sh ${RDF4J}/bin/console.sh
 
 ls -l $DATA
 
+
+echo "VFBTIME:"
+date
+
 cd $DATA
 
 # The following for loop writes the load commands into the RDF4J setup script
@@ -31,7 +39,13 @@ for i in *.ttl.gz; do
     #cp $WS/tmp.txt $WS/rdf4j.txt
     echo "curl -v --retry 5 --retry-delay 10 -X POST -H \"Content-type: text/turtle\" --data-binary @$i ${RDF4JSERVER}/repositories/vfb/statements?context=_:$i"
     curl -v --retry 5 --retry-delay 10 -X POST -H "Content-type: text/turtle" --data-binary @$i ${RDF4JSERVER}/repositories/vfb/statements?context=_:$i || exit 1
-  sleep 5
+    echo "VFBTIME:"
+    date
+    sleep 5
 done
 
+
+echo "End: vfb-pipeline-updatetriplestore"
+echo "VFBTIME:"
+date
 echo "process complete"
