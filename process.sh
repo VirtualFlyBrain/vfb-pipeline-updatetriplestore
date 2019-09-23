@@ -28,6 +28,8 @@ ls -l $DATA
 echo "VFBTIME:"
 date
 
+if [ `ls $DATA/*.ttl.gz | wc -l` -lt 1 ]; then echo "ERROR: No data in data directory! Aborting.. " && exit 1; fi
+
 cd $DATA
 
 # The following for loop writes the load commands into the RDF4J setup script
