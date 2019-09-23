@@ -12,6 +12,8 @@ RDF4J=/opt/eclipse-rdf4j-${RDF4J_VERSION}
 RDF4JSERVER=${SERVER}/rdf4j-server
 DATA=/data
 
+if [ `ls $DATA/*.ttl.gz | wc -l` -lt 1 ]; then echo "ERROR: No data in data directory! Aborting.. " && exit 1; fi
+
 echo 'Waiting for RDF4J server..'
 until $(curl --output /dev/null --silent --head --fail ${RDF4JSERVER}); do
     printf '.'
@@ -27,8 +29,6 @@ ls -l $DATA
 
 echo "VFBTIME:"
 date
-
-if [ `ls $DATA/*.ttl.gz | wc -l` -lt 1 ]; then echo "ERROR: No data in data directory! Aborting.. " && exit 1; fi
 
 cd $DATA
 
