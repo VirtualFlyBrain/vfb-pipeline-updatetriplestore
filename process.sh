@@ -13,6 +13,7 @@ RDF4JSERVER=${SERVER}/rdf4j-server
 DATA=/data
 
 if [ `ls $DATA/*.ttl.gz | wc -l` -lt 1 ]; then echo "ERROR: No data in data directory! Aborting.. " && exit 1; fi
+if [ ! -f "$DATA/kb.owl.ttl.gz" ]; then echo "ERROR: KB is not among files to ingest! Aborting.. " && exit 1; fi
 
 echo 'Waiting for RDF4J server..'
 until $(curl --output /dev/null --silent --head --fail ${RDF4JSERVER}); do
@@ -24,7 +25,7 @@ echo "connect "${RDF4JSERVER}|cat - ${VFBSETUP} > /tmp/out && mv /tmp/out ${VFBS
 cat ${VFBSETUP}
 cat ${VFBSETUP} | sh ${RDF4J}/bin/console.sh
 
-ls -l $DATA
+ls -lh $DATA
 
 
 echo "VFBTIME:"
