@@ -7,6 +7,10 @@ echo "Start: vfb-pipeline-updatetriplestore"
 echo "VFBTIME:"
 date
 
+## get remote configs
+echo "Sourcing remote config"
+source ${CONF_DIR}/config.env
+
 VFBSETUP=${WORKSPACE}/rdf4j_vfb.txt
 RDF4J=/opt/eclipse-rdf4j-${RDF4J_VERSION}
 RDF4JSERVER=${SERVER}/rdf4j-server
