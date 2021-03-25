@@ -26,7 +26,7 @@ RUN cd "${CONF_BASE_TEMP}" && git clone --quiet ${CONF_REPO} && cd $(ls -d */|he
 RUN cd "${CONF_BASE_TEMP}" && cd $(ls -d */|head -n 1) && cp -R . $CONF_BASE && cd $CONF_BASE && rm -r ${CONF_BASE_TEMP}
 
 COPY process.sh /opt/VFB/process.sh
-COPY rdf4j_vfb.txt /opt/VFB/rdf4j_vfb.txt
+# COPY rdf4j_vfb.txt /opt/VFB/rdf4j_vfb.txt
 
 RUN chmod +x /opt/VFB/*.sh
 
