@@ -7,13 +7,19 @@ echo "Start: vfb-pipeline-updatetriplestore"
 echo "VFBTIME:"
 date
 
-VFBSETUP=${WORKSPACE}/rdf4j_vfb.txt
+## get remote configs
+echo "Sourcing remote config"
+source ${CONF_DIR}/config.env
+
+VFBSETUP=${CONF_DIR}/rdf4j_vfb.txt
 RDF4J=/opt/eclipse-rdf4j-${RDF4J_VERSION}
 RDF4JSERVER=${SERVER}/rdf4j-server
 DATA=/data
 
 if [ `ls $DATA/*.ttl.gz | wc -l` -lt 1 ]; then echo "ERROR: No data in data directory! Aborting.. " && exit 1; fi
-if [ ! -f "$DATA/kb.owl.ttl.gz" ]; then echo "ERROR: KB is not among files to ingest! Aborting.. " && exit 1; fi
+if [ "$EXPORT_KB_TO_OWL" = true ]; then
+  if [ ! -f "$DATA/kb.owl.ttl.gz" ]; then echo "ERROR: KB is not among files to ingest! Aborting.. " && exit 1; fi
+fi
 
 echo 'Waiting for RDF4J server..'
 until $(curl --output /dev/null --silent --head --fail ${RDF4JSERVER}); do
@@ -41,8 +47,8 @@ for i in *.ttl.gz; do
     #awk -v line="$arg" '/open vfb/ { print; print line; next }1' $WS/rdf4j.txt > $WS/tmp.txt
     #cp $WS/tmp.txt $WS/rdf4j.txt
     URI="%3Chttp%3A%2F%2Fvirtualflybrain.org%2Fdata%2FVFB%2FOWL%2F${i}%3E"
-    echo "curl -v --retry 5 --retry-delay 10 -X POST -H \"Content-type: text/turtle\" --data-binary @$i ${RDF4JSERVER}/repositories/vfb/statements?context=${URI}"
-    curl -v --retry 5 --retry-delay 10 -X POST -H "Content-type: text/turtle" --data-binary @$i ${RDF4JSERVER}/repositories/vfb/statements?context=${URI} || exit 1
+    echo "curl -v --retry 5 --retry-delay 10 -X POST -H \"Content-type: text/turtle\" --data-binary @$i ${RDF4JSERVER}/repositories/${REPO_NAME}/statements?context=${URI}"
+    curl -v --retry 5 --retry-delay 10 -X POST -H "Content-type: text/turtle" --data-binary @$i ${RDF4JSERVER}/repositories/${REPO_NAME}/statements?context=${URI} || exit 1
     echo "VFBTIME:"
     date
     sleep 5
