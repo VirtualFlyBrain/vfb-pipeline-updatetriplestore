@@ -3,20 +3,20 @@ name: Docker Image CI
 on: [push]
 
 jobs:
-
   build:
 
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v1
-    - run: docker build . --file Dockerfile --tag vfb-pipeline-updatetriplestore:${GITHUB_REF#refs/heads/}
-    - name: Dockerize
-      if: success()
-      uses: manusa/actions-publish-docker@v1.1.2
-      with:
-        name: virtualflybrain/vfb-pipeline-updatetriplestore
-        username: ${{ secrets.DOCKER_HUB_USER }}
-        password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      - name: Checkout code
+        uses: actions/checkout@v3
 
+      - name: Build Docker Image
+        run: docker build . --file Dockerfile --tag vfb-pipeline-updatetriplestore:${GITHUB_REF#refs/heads/}
+
+      - name: Dockerize and Publish to Docker Hub
+        uses: manusa/actions-publish-docker@v1.1.2
+        with:
+          name: virtualflybrain/vfb-pipeline-updatetriplestore
+          username: ${{ secrets.DOCKER_HUB_USER }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
