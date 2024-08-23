@@ -19,3 +19,4 @@ jobs:
         name: virtualflybrain/vfb-pipeline-updatetriplestore
         username: ${{ secrets.DOCKER_HUB_USER }}
         password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
