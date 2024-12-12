@@ -8,7 +8,6 @@ echo "VFBTIME:"
 date
 
 VFBSETUP=${WORKSPACE}/rdf4j_vfb.txt
-RDF4J=/opt/eclipse-rdf4j-${RDF4J_VERSION}
 RDF4JSERVER=${SERVER}/rdf4j-server
 DATA=/data
 
@@ -23,7 +22,7 @@ done
 
 echo "connect "${RDF4JSERVER}|cat - ${VFBSETUP} > /tmp/out && mv /tmp/out ${VFBSETUP}
 cat ${VFBSETUP}
-cat ${VFBSETUP} | sh ${RDF4J}/bin/console.sh
+cat ${VFBSETUP} | sh ${RDF4J_SDK_DIR}/bin/console.sh
 
 ls -lh $DATA
 
